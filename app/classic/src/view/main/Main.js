@@ -8,11 +8,11 @@
 Ext.define('BookLib.view.main.Main', {
     extend: 'Ext.tab.Panel',
     xtype: 'app-main',
+    plugins: ['viewport'],
 
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
-
         'BookLib.view.main.MainController',
         'BookLib.view.main.MainModel',
         'BookLib.view.main.List'
@@ -31,12 +31,7 @@ Ext.define('BookLib.view.main.Main', {
         layout: {
             align: 'stretchmax'
         },
-        title: {
-            bind: {
-                text: '{name}'
-            },
-            flex: 0
-        },
+
         iconCls: 'fa-th-list'
     },
 
@@ -75,30 +70,46 @@ Ext.define('BookLib.view.main.Main', {
         }
     },
 
-    items: [{
-        title: 'Home',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
-        items: [{
-            xtype: 'mainlist'
-        }]
-    }, {
-        title: 'Users',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Groups',
-        iconCls: 'fa-users',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }, {
-        title: 'Settings',
-        iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }]
+
+    initComponent: function(config){
+        var me = this;
+
+        me.header.title = {
+            text: I18n('appName'),
+            flex: 0
+        };
+        me.items = [{
+            title: I18n('section.home'),
+            iconCls: 'fa-home',
+            // The following grid shares a store with the classic version's grid as well!
+            items: [{
+                xtype: 'mainlist'
+            }]
+        }, {
+            title: I18n('section.profile'),
+            iconCls: 'fa-user',
+            bind: {
+                html: '{loremIpsum}'
+            }
+        }, {
+            title: I18n('section.users'),
+            iconCls: 'fa-users',
+            bind: {
+                html: '{loremIpsum}'
+            }
+        }, {
+            title: I18n('section.groups'),
+            iconCls: 'fa-globe',
+            bind: {
+                html: '{loremIpsum}'
+            }
+        }, {
+            title: I18n('section.settings'),
+            iconCls: 'fa-cog',
+            bind: {
+                html: '{loremIpsum}'
+            }
+        }];
+        this.callParent();
+    }
 });

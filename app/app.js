@@ -3,24 +3,27 @@
  * needed for your application, but these edits will have to be merged by
  * Sencha Cmd when upgrading.
  */
+
 Ext.application({
     name: 'BookLib',
-
-    extend: 'BookLib.Application',
-
     requires: [
+        'Ext.i18n.Bundle',
         'BookLib.view.main.Main'
     ],
 
-    // The name of the initial view to create. With the classic toolkit this class
-    // will gain a "viewport" plugin if it does not extend Ext.Viewport. With the
-    // modern toolkit, the main view will be added to the Viewport.
-    //
-    mainView: 'BookLib.view.main.Main'
-	
-    //-------------------------------------------------------------------------
-    // Most customizations should be made to BookLib.Application. If you need to
-    // customize this file, doing so below this section reduces the likelihood
-    // of merge conflicts when upgrading to new versions of Sencha Cmd.
-    //-------------------------------------------------------------------------
+    bundle: {
+        bundle: 'locale/booklib',
+        lang: navigator.language,
+        path: 'resources',
+        noCache: true,
+        listeners: {
+            loaded: function() {
+                var me = this;
+                window.I18n = function(key){return me.getMsg(key);};
+                Ext.create('BookLib.view.main.Main');
+            }
+        }
+    },
+
+    extend: 'BookLib.Application'
 });
